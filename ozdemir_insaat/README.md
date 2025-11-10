@@ -1,73 +1,155 @@
-# React + TypeScript + Vite
+# Özdemir İnşaat - Emlak Web Sitesi
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Emlakjet benzeri, kullanıcıların daireleri görüntüleyebileceği ve adminin yeni daire ekleyip yönetebileceği bir emlak tanıtım web sitesi.
 
-Currently, two official plugins are available:
+## Teknolojiler
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React** - UI framework
+- **Vite** - Build tool
+- **Firebase** - Backend servisleri
+  - Authentication (Admin girişi)
+  - Firestore (Veritabanı)
+  - Storage (Resim yükleme)
+- **React Router** - Sayfa yönlendirme
 
-## React Compiler
+## Özellikler
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Kullanıcı Arayüzü
+- ✅ Ana sayfa
+- ✅ Daire listeleme ve detay sayfası
+- ✅ Filtreleme (şehir, fiyat, oda sayısı)
+- ✅ Hizmetler sayfası
+- ✅ İletişim sayfası
+- ✅ Responsive tasarım (mobil ve tablet uyumlu)
 
-## Expanding the ESLint configuration
+### Admin Paneli
+- ✅ Giriş/çıkış (Firebase Authentication)
+- ✅ Daire ekleme, düzenleme ve silme
+- ✅ Resim yükleme (Firebase Storage)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Kurulum
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 1. Bağımlılıkları Yükleyin
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. Firebase Yapılandırması
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+1. [Firebase Console](https://console.firebase.google.com/) üzerinden yeni bir proje oluşturun
+2. Authentication'ı aktifleştirin (Email/Password)
+3. Firestore Database oluşturun
+4. Storage'ı aktifleştirin
+5. Web uygulaması ekleyin ve yapılandırma bilgilerini alın
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+`src/config/firebase.js` dosyasındaki Firebase yapılandırmasını güncelleyin:
+
+```javascript
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_STORAGE_BUCKET",
+  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
 ```
+
+### 3. Admin Kullanıcısı Oluşturma
+
+Firebase Console > Authentication > Users bölümünden manuel olarak bir admin kullanıcısı ekleyin.
+
+### 4. Firestore Kuralları
+
+Firebase Console > Firestore Database > Rules bölümünde aşağıdaki kuralları ekleyin:
+
+```
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /properties/{property} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+  }
+}
+```
+
+### 5. Storage Kuralları
+
+Firebase Console > Storage > Rules bölümünde aşağıdaki kuralları ekleyin:
+
+```
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /properties/{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+  }
+}
+```
+
+## Geliştirme
+
+Geliştirme sunucusunu başlatın:
+
+```bash
+npm run dev
+```
+
+Tarayıcınızda `http://localhost:5173` adresini açın.
+
+## Build
+
+Production build oluşturmak için:
+
+```bash
+npm run build
+```
+
+Build dosyaları `dist` klasöründe oluşturulacaktır.
+
+## Kullanım
+
+### Kullanıcı Tarafı
+1. Ana sayfadan ilanları görüntüleyin
+2. İlanlar sayfasında filtreleme yapın
+3. İlan detaylarını inceleyin
+4. Hizmetler ve iletişim sayfalarını ziyaret edin
+
+### Admin Tarafı
+1. `/admin` sayfasına gidin
+2. Firebase'de oluşturduğunuz admin hesabıyla giriş yapın
+3. Yeni ilan ekleyin, mevcut ilanları düzenleyin veya silin
+4. Resim yükleyin
+
+## Proje Yapısı
+
+```
+src/
+├── components/
+│   ├── Navbar.jsx              # Navigasyon menüsü
+│   ├── PropertyCard.jsx        # İlan kartı
+│   ├── PropertyList.jsx        # İlan listesi
+│   ├── PropertyDetail.jsx      # İlan detay sayfası
+│   ├── FilterBar.jsx           # Filtreleme bileşeni
+│   └── admin/
+│       ├── AdminLogin.jsx      # Admin giriş sayfası
+│       ├── AdminPanel.jsx      # Admin panel
+│       └── PropertyForm.jsx    # İlan ekleme/düzenleme formu
+├── pages/
+│   ├── Home.jsx                # Ana sayfa
+│   ├── Properties.jsx          # İlanlar sayfası
+│   ├── Services.jsx            # Hizmetler sayfası
+│   └── Contact.jsx             # İletişim sayfası
+├── config/
+│   └── firebase.js             # Firebase yapılandırması
+├── App.jsx                     # Ana uygulama
+└── main.jsx                    # Giriş noktası
+```
+
+## Lisans
+
+Bu proje eğitim amaçlıdır.

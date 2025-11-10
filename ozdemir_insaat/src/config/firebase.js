@@ -1,20 +1,17 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
-import { getStorage } from 'firebase/storage';
 
-// Firebase yapılandırmanızı buraya ekleyin
-// Firebase Console'dan alacağınız bilgiler
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyB0XtuVwX9Rer8Ey3u0YSW6BYOkQE5crV8",
+  authDomain: "ozdemir-insaat-dc45a.firebaseapp.com",
+  projectId: "ozdemir-insaat-dc45a",
+  storageBucket: "ozdemir-insaat-dc45a.firebasestorage.app",
+  messagingSenderId: "860395477723",
+  appId: "1:860395477723:web:014adfdc1922a18daa0afe",
+  measurementId: "G-PMNJ8GSBHF"
 };
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
-export const storage = getStorage(app);

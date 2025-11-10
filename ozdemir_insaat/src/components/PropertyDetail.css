@@ -1,0 +1,232 @@
+.property-detail {
+  max-width: 1200px;
+  margin: 3rem auto;
+  padding: 0 2rem 3rem 2rem;
+  animation: fadeIn 0.6s ease-out;
+}
+
+.image-gallery {
+  margin-bottom: 3rem;
+  background: white;
+  padding: 2rem;
+  border-radius: 24px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.main-image {
+  width: 100%;
+  height: 550px;
+  object-fit: cover;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease;
+}
+
+.main-image:hover {
+  transform: scale(1.02);
+}
+
+.thumbnail-list {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  overflow-x: auto;
+  padding: 0.5rem 0;
+}
+
+.thumbnail-list::-webkit-scrollbar {
+  height: 8px;
+}
+
+.thumbnail-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.thumbnail-list::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  border-radius: 10px;
+}
+
+.thumbnail-list img {
+  width: 120px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 12px;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: all 0.3s ease;
+  border: 3px solid transparent;
+}
+
+.thumbnail-list img:hover {
+  opacity: 0.8;
+  transform: scale(1.05);
+}
+
+.thumbnail-list img.active {
+  opacity: 1;
+  border: 3px solid #6366f1;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+.property-details-content {
+  background: white;
+  padding: 3rem;
+  border-radius: 24px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.property-details-content h1 {
+  color: #1f2937;
+  margin-bottom: 1rem;
+  font-size: 2.5rem;
+  font-weight: 800;
+  animation: slideInLeft 0.6s ease-out;
+}
+
+.location {
+  color: #6b7280;
+  font-size: 1.2rem;
+  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.price {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 2rem 0;
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.specs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin: 3rem 0;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+  border-radius: 20px;
+  border: 2px solid rgba(99, 102, 241, 0.1);
+}
+
+.spec-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+}
+
+.spec-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.15);
+}
+
+.spec-label {
+  font-weight: 700;
+  color: #6366f1;
+  font-size: 1rem;
+}
+
+.spec-item span:last-child {
+  font-weight: 600;
+  color: #1f2937;
+  font-size: 1.1rem;
+}
+
+.description {
+  margin-top: 3rem;
+  padding: 2rem;
+  background: #f9fafb;
+  border-radius: 20px;
+  border-left: 5px solid #6366f1;
+}
+
+.description h2 {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  font-weight: 800;
+}
+
+.description p {
+  line-height: 2;
+  color: #4b5563;
+  font-size: 1.1rem;
+}
+
+.loading,
+.not-found {
+  text-align: center;
+  padding: 5rem 2rem;
+  font-size: 1.5rem;
+  color: #6b7280;
+  animation: fadeIn 0.6s ease-out;
+}
+
+.loading {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .property-detail {
+    padding: 0 1rem 2rem 1rem;
+  }
+  
+  .image-gallery {
+    padding: 1.5rem;
+  }
+  
+  .main-image {
+    height: 300px;
+  }
+  
+  .thumbnail-list img {
+    width: 80px;
+    height: 60px;
+  }
+  
+  .property-details-content {
+    padding: 2rem;
+  }
+  
+  .property-details-content h1 {
+    font-size: 1.8rem;
+  }
+  
+  .price {
+    font-size: 2rem;
+  }
+  
+  .specs {
+    grid-template-columns: 1fr;
+    padding: 1.5rem;
+  }
+}
