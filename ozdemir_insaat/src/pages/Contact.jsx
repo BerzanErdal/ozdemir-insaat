@@ -12,7 +12,6 @@ function Contact() {
     message: ''
   });
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -21,7 +20,6 @@ function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setSuccess(false);
 
     try {
       // Firestore'a mesajı kaydet
@@ -31,7 +29,6 @@ function Contact() {
         status: 'unread'
       });
 
-      setSuccess(true);
       toast.success('✅ Mesajınız başarıyla gönderildi! En kısa sürede size dönüş yapacağız.', {
         autoClose: 4000,
       });
@@ -58,14 +55,14 @@ function Contact() {
             <span className="info-icon">📍</span>
             <div>
               <h3>Adres</h3>
-              <p>Örnek Mahallesi, İnşaat Caddesi No:123<br/>İstanbul, Türkiye</p>
+              <p>Kıbrısköy Mah, Mamak<br/>Ankara, Türkiye</p>
             </div>
           </div>
           <div className="info-item">
             <span className="info-icon">📞</span>
             <div>
               <h3>Telefon</h3>
-              <p>+90 (212) 123 45 67</p>
+              <p>+90 544 223 76 70</p>
             </div>
           </div>
           <div className="info-item">
@@ -115,9 +112,6 @@ function Contact() {
             <button type="submit" disabled={loading}>
               {loading ? '📤 Gönderiliyor...' : '📨 Gönder'}
             </button>
-            {success && (
-              <p className="success-message">✅ Mesajınız başarıyla gönderildi!</p>
-            )}
           </form>
         </div>
       </div>
