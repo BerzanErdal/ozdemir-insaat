@@ -72,25 +72,47 @@ body {
 }
 
 .page-header {
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
-  background-size: 200% 200%;
-  animation: gradientShift 8s ease infinite;
+  background-image: 
+    linear-gradient(135deg, rgba(99, 102, 241, 0.9) 0%, rgba(139, 92, 246, 0.9) 50%, rgba(217, 70, 239, 0.9) 100%),
+    url('/src/assets/ozdemir_insaat.png');
+  background-size: cover, cover;
+  background-position: center, center;
+  background-repeat: no-repeat;
   color: white;
-  padding: 4rem 2rem;
+  padding: 5rem 2rem;
   text-align: center;
   position: relative;
   overflow: hidden;
+  animation: backgroundZoom 20s ease-in-out infinite;
+}
+
+@keyframes backgroundZoom {
+  0%, 100% {
+    background-size: cover, 100%;
+  }
+  50% {
+    background-size: cover, 110%;
+  }
 }
 
 .page-header::before {
   content: '';
   position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-  animation: rotate 20s linear infinite;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 0%, transparent 70%);
+  animation: headerPulse 4s ease-in-out infinite;
+}
+
+@keyframes headerPulse {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 @keyframes rotate {
