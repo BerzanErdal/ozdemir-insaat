@@ -6,6 +6,7 @@ function Navbar() {
     <nav className="navbar">
       <div className="container">
         <Link to="/" className="logo">
+          <img src="/ozdemir_insaat_favicon.png" alt="Özdemir İnşaat Logo" className="logo-icon" />
           <h1>Özdemir İnşaat</h1>
         </Link>
         <ul className="nav-links">
