@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from '../config/firebase';
 import './Contact.css';
 
 function Contact() {
@@ -8,15 +10,35 @@ function Contact() {
     phone: '',
     message: ''
   });
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert('Mesajınız alındı! En kısa sürede size dönüş yapacağız.');
-    setFormData({ name: '', email: '', phone: '', message: '' });
+    setLoading(true);
+    setSuccess(false);
+
+    try {
+      // Firestore'a mesajı kaydet
+      await addDoc(collection(db, 'messages'), {
+        ...formData,
+        createdAt: new Date(),
+        status: 'unread'
+      });
+
+      setSuccess(true);
+      alert('✅ Mesajınız başarıyla gönderildi! En kısa sürede size dönüş yapacağız.');
+      setFormData({ name: '', email: '', phone: '', message: '' });
+    } catch (error) {
+      console.error('Mesaj gönderme hatası:', error);
+      alert('❌ Mesaj gönderilirken bir hata oluştu. Lütfen tekrar deneyin.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -87,7 +109,12 @@ function Contact() {
               rows="5"
               required
             />
-            <button type="submit">Gönder</button>
+            <button type="submit" disabled={loading}>
+              {loading ? '📤 Gönderiliyor...' : '📨 Gönder'}
+            </button>
+            {success && (
+              <p className="success-message">✅ Mesajınız başarıyla gönderildi!</p>
+            )}
           </form>
         </div>
       </div>

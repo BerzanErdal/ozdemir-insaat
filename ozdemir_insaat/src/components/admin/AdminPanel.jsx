@@ -3,12 +3,14 @@ import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { signOut } from 'firebase/auth';
 import { auth, db } from '../../config/firebase';
 import PropertyForm from './PropertyForm';
+import MessagesList from './MessagesList';
 import './AdminPanel.css';
 
 function AdminPanel() {
   const [properties, setProperties] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingProperty, setEditingProperty] = useState(null);
+  const [activeTab, setActiveTab] = useState('properties'); // 'properties' veya 'messages'
 
   useEffect(() => {
     fetchProperties();
@@ -59,13 +61,31 @@ function AdminPanel() {
       <div className="admin-header">
         <h1>Admin Paneli</h1>
         <div className="admin-actions">
-          <button onClick={() => setShowForm(true)} className="add-btn">
-            + Yeni İlan Ekle
-          </button>
+          {activeTab === 'properties' && (
+            <button onClick={() => setShowForm(true)} className="add-btn">
+              + Yeni İlan Ekle
+            </button>
+          )}
           <button onClick={handleLogout} className="logout-btn">
             Çıkış Yap
           </button>
         </div>
+      </div>
+
+      {/* Sekmeler */}
+      <div className="admin-tabs">
+        <button 
+          className={`tab-btn ${activeTab === 'properties' ? 'active' : ''}`}
+          onClick={() => setActiveTab('properties')}
+        >
+          🏠 İlanlar
+        </button>
+        <button 
+          className={`tab-btn ${activeTab === 'messages' ? 'active' : ''}`}
+          onClick={() => setActiveTab('messages')}
+        >
+          📬 Mesajlar
+        </button>
       </div>
 
       {showForm && (
@@ -75,7 +95,9 @@ function AdminPanel() {
         />
       )}
 
-      <div className="properties-table">
+      {/* İçerik */}
+      {activeTab === 'properties' ? (
+        <div className="properties-table">
         <table>
           <thead>
             <tr>
@@ -105,7 +127,10 @@ function AdminPanel() {
             ))}
           </tbody>
         </table>
-      </div>
+        </div>
+      ) : (
+        <MessagesList />
+      )}
     </div>
   );
 }

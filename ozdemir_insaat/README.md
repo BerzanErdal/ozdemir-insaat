@@ -87,9 +87,16 @@ Firebase Console > Firestore Database > Rules bölümünde aşağıdaki kurallar
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    // İlanlar - Herkes okuyabilir, sadece admin yazabilir
     match /properties/{property} {
       allow read: if true;
       allow write: if request.auth != null;
+    }
+    
+    // Mesajlar - Herkes yazabilir, sadece admin okuyabilir
+    match /messages/{message} {
+      allow read: if request.auth != null;
+      allow create: if true;
     }
   }
 }

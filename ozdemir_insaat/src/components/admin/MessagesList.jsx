@@ -1,0 +1,120 @@
+import { useState, useEffect } from 'react';
+import { collection, getDocs, updateDoc, doc, deleteDoc, orderBy, query } from 'firebase/firestore';
+import { db } from '../../config/firebase';
+import './MessagesList.css';
+
+function MessagesList() {
+  const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchMessages();
+  }, []);
+
+  const fetchMessages = async () => {
+    try {
+      const q = query(collection(db, 'messages'), orderBy('createdAt', 'desc'));
+      const querySnapshot = await getDocs(q);
+      const messagesData = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setMessages(messagesData);
+      setLoading(false);
+    } catch (error) {
+      console.error('Mesajlar yüklenirken hata:', error);
+      setLoading(false);
+    }
+  };
+
+  const markAsRead = async (id) => {
+    try {
+      await updateDoc(doc(db, 'messages', id), {
+        status: 'read'
+      });
+      fetchMessages();
+    } catch (error) {
+      console.error('Güncelleme hatası:', error);
+    }
+  };
+
+  const deleteMessage = async (id) => {
+    if (window.confirm('Bu mesajı silmek istediğinizden emin misiniz?')) {
+      try {
+        await deleteDoc(doc(db, 'messages', id));
+        fetchMessages();
+      } catch (error) {
+        console.error('Silme hatası:', error);
+      }
+    }
+  };
+
+  const formatDate = (timestamp) => {
+    if (!timestamp) return 'Tarih yok';
+    const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+    return date.toLocaleString('tr-TR');
+  };
+
+  if (loading) {
+    return <div className="loading">Mesajlar yükleniyor...</div>;
+  }
+
+  return (
+    <div className="messages-list">
+      <h2>📬 Gelen Mesajlar ({messages.length})</h2>
+      
+      {messages.length === 0 ? (
+        <div className="no-messages">
+          <p>📭 Henüz mesaj yok</p>
+        </div>
+      ) : (
+        <div className="messages-grid">
+          {messages.map(message => (
+            <div 
+              key={message.id} 
+              className={`message-card ${message.status === 'unread' ? 'unread' : ''}`}
+            >
+              <div className="message-header">
+                <div className="message-info">
+                  <h3>{message.name}</h3>
+                  <span className="message-date">{formatDate(message.createdAt)}</span>
+                </div>
+                {message.status === 'unread' && (
+                  <span className="unread-badge">Yeni</span>
+                )}
+              </div>
+              
+              <div className="message-contact">
+                <p>📧 {message.email}</p>
+                <p>📞 {message.phone}</p>
+              </div>
+              
+              <div className="message-content">
+                <p>{message.message}</p>
+              </div>
+              
+              <div className="message-actions">
+                {message.status === 'unread' && (
+                  <button 
+                    onClick={() => markAsRead(message.id)}
+                    className="read-btn"
+                  >
+                    ✓ Okundu İşaretle
+                  </button>
+                )}
+                <button 
+                  onClick={() => deleteMessage(message.id)}
+                  className="delete-btn"
+                >
+                  🗑️ Sil
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default MessagesList;
