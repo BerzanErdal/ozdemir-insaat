@@ -1,4 +1,4 @@
-# Özdemir İnşaat - Emlak Web Sitesi
+# İnşaat Emlak
 
 Emlakjet benzeri, kullanıcıların daireleri görüntüleyebileceği ve adminin yeni daire ekleyip yönetebileceği bir emlak tanıtım web sitesi.
 
@@ -66,13 +66,13 @@ VITE_FIREBASE_MEASUREMENT_ID=your_measurement_id
 1. [Cloudinary](https://cloudinary.com/users/register_free) üzerinden ücretsiz hesap oluşturun
 2. Dashboard'dan **Cloud Name**'inizi alın
 3. Settings → Upload → Upload Presets → Add upload preset
-   - Preset name: `ozdemir_insaat`
+   - Preset name: `insaat_emlak`
    - Signing Mode: **Unsigned**
 4. Cloudinary bilgilerini `.env` dosyasına ekleyin:
 
 ```env
 VITE_CLOUDINARY_CLOUD_NAME=your_cloud_name
-VITE_CLOUDINARY_UPLOAD_PRESET=ozdemir_insaat
+VITE_CLOUDINARY_UPLOAD_PRESET=insaat_emlak
 ```
 
 ### 5. Admin Kullanıcısı Oluşturma
