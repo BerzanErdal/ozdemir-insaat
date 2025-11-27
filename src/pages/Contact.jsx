@@ -55,14 +55,14 @@ function Contact() {
             <span className="info-icon">📍</span>
             <div>
               <h3>Adres</h3>
-              <p>Kıbrısköy Mah, Mamak<br/>Ankara, Türkiye</p>
+              <p>...<br/> Türkiye</p>
             </div>
           </div>
           <div className="info-item">
             <span className="info-icon">📞</span>
             <div>
               <h3>Telefon</h3>
-              <p>+90 544 223 76 70</p>
+              <p>+90 xxxxxxxxxx</p>
             </div>
           </div>
           <div className="info-item">
